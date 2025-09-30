@@ -1,0 +1,223 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "azhaanadf"
+		},
+		"AzureDatabricksOmniChannelWorkspace_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'AzureDatabricksOmniChannelWorkspace'"
+		},
+		"AzureSynapseAnalytics_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'AzureSynapseAnalytics'"
+		},
+		"ls_adlssink_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_adlssink'"
+		},
+		"ls_blobsource_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ls_blobsource'"
+		},
+		"ls_sink_chat_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_sink_chat'"
+		},
+		"ls_sink_crm_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_sink_crm'"
+		},
+		"ls_voice_sink_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_voice_sink'"
+		},
+		"AzureDataLakeStorageGold_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://azhaanadlsgen2.dfs.core.windows.net/"
+		},
+		"AzureDatabricksOmniChannelWorkspace_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "0917-221023-kmlw94pg"
+		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://azhaankeyvault.vault.azure.net/"
+		},
+		"AzureSynapseAnalytics_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "azhaan-synapse.sql.azuresynapse.net"
+		},
+		"AzureSynapseAnalytics_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "sqldedicatedpool"
+		},
+		"AzureSynapseAnalytics_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "adminnusrat"
+		},
+		"ls_adlssink_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://azhaanadlsgen2.dfs.core.windows.net/"
+		},
+		"ls_azuresql_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "azhaanserver.database.windows.net"
+		},
+		"ls_azuresql_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "azhaan_db"
+		},
+		"ls_azuresql_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "adminnusrat"
+		},
+		"ls_sink_chat_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://azhaanadlsgen2.dfs.core.windows.net/"
+		},
+		"ls_sink_crm_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://azhaanadlsgen2.dfs.core.windows.net/"
+		},
+		"ls_voice_sink_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://azhaanadlsgen2.dfs.core.windows.net/"
+		},
+		"ls_voicelogs_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://www.kaggle.com/api/v1"
+		},
+		"ls_voicelogs_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "nusratamena"
+		},
+		"blob_trigger_omni_data_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/d216a728-fa3c-4c26-af68-c8c6bea31bec/resourceGroups/azhaan_rg/providers/Microsoft.Storage/storageAccounts/azhaanblob"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "azhaanadf_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureDatabricksOmniChannelWorkspace_accessToken": {
+						"value": "[parameters('AzureDatabricksOmniChannelWorkspace_accessToken')]"
+					},
+					"AzureSynapseAnalytics_password": {
+						"value": "[parameters('AzureSynapseAnalytics_password')]"
+					},
+					"ls_adlssink_accountKey": {
+						"value": "[parameters('ls_adlssink_accountKey')]"
+					},
+					"ls_blobsource_connectionString": {
+						"value": "[parameters('ls_blobsource_connectionString')]"
+					},
+					"ls_sink_chat_accountKey": {
+						"value": "[parameters('ls_sink_chat_accountKey')]"
+					},
+					"ls_sink_crm_accountKey": {
+						"value": "[parameters('ls_sink_crm_accountKey')]"
+					},
+					"ls_voice_sink_accountKey": {
+						"value": "[parameters('ls_voice_sink_accountKey')]"
+					},
+					"AzureDataLakeStorageGold_properties_typeProperties_url": {
+						"value": "[parameters('AzureDataLakeStorageGold_properties_typeProperties_url')]"
+					},
+					"AzureDatabricksOmniChannelWorkspace_properties_typeProperties_existingClusterId": {
+						"value": "[parameters('AzureDatabricksOmniChannelWorkspace_properties_typeProperties_existingClusterId')]"
+					},
+					"AzureKeyVault1_properties_typeProperties_baseUrl": {
+						"value": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
+					},
+					"AzureSynapseAnalytics_properties_typeProperties_server": {
+						"value": "[parameters('AzureSynapseAnalytics_properties_typeProperties_server')]"
+					},
+					"AzureSynapseAnalytics_properties_typeProperties_database": {
+						"value": "[parameters('AzureSynapseAnalytics_properties_typeProperties_database')]"
+					},
+					"AzureSynapseAnalytics_properties_typeProperties_userName": {
+						"value": "[parameters('AzureSynapseAnalytics_properties_typeProperties_userName')]"
+					},
+					"ls_adlssink_properties_typeProperties_url": {
+						"value": "[parameters('ls_adlssink_properties_typeProperties_url')]"
+					},
+					"ls_sink_chat_properties_typeProperties_url": {
+						"value": "[parameters('ls_sink_chat_properties_typeProperties_url')]"
+					},
+					"ls_sink_crm_properties_typeProperties_url": {
+						"value": "[parameters('ls_sink_crm_properties_typeProperties_url')]"
+					},
+					"ls_voice_sink_properties_typeProperties_url": {
+						"value": "[parameters('ls_voice_sink_properties_typeProperties_url')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "azhaanadf_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"ls_azuresql_properties_typeProperties_server": {
+						"value": "[parameters('ls_azuresql_properties_typeProperties_server')]"
+					},
+					"ls_azuresql_properties_typeProperties_database": {
+						"value": "[parameters('ls_azuresql_properties_typeProperties_database')]"
+					},
+					"ls_azuresql_properties_typeProperties_userName": {
+						"value": "[parameters('ls_azuresql_properties_typeProperties_userName')]"
+					},
+					"ls_voicelogs_properties_typeProperties_url": {
+						"value": "[parameters('ls_voicelogs_properties_typeProperties_url')]"
+					},
+					"ls_voicelogs_properties_typeProperties_userName": {
+						"value": "[parameters('ls_voicelogs_properties_typeProperties_userName')]"
+					},
+					"blob_trigger_omni_data_properties_typeProperties_scope": {
+						"value": "[parameters('blob_trigger_omni_data_properties_typeProperties_scope')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'azhaanadf_ArmTemplate_0')]"
+			]
+		}
+	]
+}

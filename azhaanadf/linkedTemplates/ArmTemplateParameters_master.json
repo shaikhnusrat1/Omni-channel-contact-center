@@ -1,0 +1,84 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "azhaanadf"
+		},
+		"AzureDatabricksOmniChannelWorkspace_accessToken": {
+			"value": ""
+		},
+		"AzureSynapseAnalytics_password": {
+			"value": ""
+		},
+		"ls_adlssink_accountKey": {
+			"value": ""
+		},
+		"ls_blobsource_connectionString": {
+			"value": ""
+		},
+		"ls_sink_chat_accountKey": {
+			"value": ""
+		},
+		"ls_sink_crm_accountKey": {
+			"value": ""
+		},
+		"ls_voice_sink_accountKey": {
+			"value": ""
+		},
+		"AzureDataLakeStorageGold_properties_typeProperties_url": {
+			"value": "https://azhaanadlsgen2.dfs.core.windows.net/"
+		},
+		"AzureDatabricksOmniChannelWorkspace_properties_typeProperties_existingClusterId": {
+			"value": "0917-221023-kmlw94pg"
+		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"value": "https://azhaankeyvault.vault.azure.net/"
+		},
+		"AzureSynapseAnalytics_properties_typeProperties_server": {
+			"value": "azhaan-synapse.sql.azuresynapse.net"
+		},
+		"AzureSynapseAnalytics_properties_typeProperties_database": {
+			"value": "sqldedicatedpool"
+		},
+		"AzureSynapseAnalytics_properties_typeProperties_userName": {
+			"value": "adminnusrat"
+		},
+		"ls_adlssink_properties_typeProperties_url": {
+			"value": "https://azhaanadlsgen2.dfs.core.windows.net/"
+		},
+		"ls_azuresql_properties_typeProperties_server": {
+			"value": "azhaanserver.database.windows.net"
+		},
+		"ls_azuresql_properties_typeProperties_database": {
+			"value": "azhaan_db"
+		},
+		"ls_azuresql_properties_typeProperties_userName": {
+			"value": "adminnusrat"
+		},
+		"ls_sink_chat_properties_typeProperties_url": {
+			"value": "https://azhaanadlsgen2.dfs.core.windows.net/"
+		},
+		"ls_sink_crm_properties_typeProperties_url": {
+			"value": "https://azhaanadlsgen2.dfs.core.windows.net/"
+		},
+		"ls_voice_sink_properties_typeProperties_url": {
+			"value": "https://azhaanadlsgen2.dfs.core.windows.net/"
+		},
+		"ls_voicelogs_properties_typeProperties_url": {
+			"value": "https://www.kaggle.com/api/v1"
+		},
+		"ls_voicelogs_properties_typeProperties_userName": {
+			"value": "nusratamena"
+		},
+		"blob_trigger_omni_data_properties_typeProperties_scope": {
+			"value": "/subscriptions/d216a728-fa3c-4c26-af68-c8c6bea31bec/resourceGroups/azhaan_rg/providers/Microsoft.Storage/storageAccounts/azhaanblob"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
