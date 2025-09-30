@@ -1,0 +1,26 @@
+{
+	"name": "AzureSynapseAnalyticsTable1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSynapseAnalytics",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "channel_id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "channel_name",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "omni_gold_dim_channel"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

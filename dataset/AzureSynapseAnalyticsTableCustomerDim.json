@@ -1,0 +1,17 @@
+{
+	"name": "AzureSynapseAnalyticsTableCustomerDim",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSynapseAnalytics",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "omni_gold_dim_customer"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

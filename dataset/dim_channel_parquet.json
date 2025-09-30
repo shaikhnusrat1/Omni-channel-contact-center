@@ -1,0 +1,30 @@
+{
+	"name": "dim_channel_parquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorageGold",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "gold/dim_channel",
+				"fileSystem": "container11"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "channel_id",
+				"type": "UTF8"
+			},
+			{
+				"name": "channel_name",
+				"type": "UTF8"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

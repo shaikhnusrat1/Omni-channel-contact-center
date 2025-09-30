@@ -1,0 +1,50 @@
+{
+	"name": "CustomerDimParquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorageGold",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "gold/dim_customer",
+				"fileSystem": "container11"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "account_id",
+				"type": "UTF8"
+			},
+			{
+				"name": "name",
+				"type": "UTF8"
+			},
+			{
+				"name": "email",
+				"type": "UTF8"
+			},
+			{
+				"name": "tier",
+				"type": "UTF8"
+			},
+			{
+				"name": "start_ts",
+				"type": "INT96"
+			},
+			{
+				"name": "end_ts",
+				"type": "INT96"
+			},
+			{
+				"name": "is_current",
+				"type": "BOOLEAN"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

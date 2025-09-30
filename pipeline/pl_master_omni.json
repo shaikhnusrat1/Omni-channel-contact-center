@@ -1,0 +1,331 @@
+{
+	"name": "pl_master_omni",
+	"properties": {
+		"activities": [
+			{
+				"name": "pl_chat_omni",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "pl_crm_omni",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_chatlogs_staging_to_bronze",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "pl_voice_omni",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_voicelogs_staging_to_bronze",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "pl_crm_omni",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "pl_voice_omni",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crm_staging_to_bronze",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "BronzeToSilver",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "pl_chat_omni",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Project: Omni-Channel Contact Center Analytics & SLA Risk Scoring/BronzeToSilverAutoloader"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricksOmniChannelWorkspace",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "SilverToGold",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "BronzeToSilver",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Project: Omni-Channel Contact Center Analytics & SLA Risk Scoring/SilverToGoldAutoloader"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricksOmniChannelWorkspace",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "GoldToSynapseChannelDim",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "SilverToGold",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"wildcardFolderPath": "gold/dim_channel",
+							"wildcardFileName": "*.parquet",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "ParquetReadSettings"
+						}
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "IF OBJECT_ID('dbo.omni_gold_dim_channel', 'U') IS NOT NULL\n    DELETE FROM dbo.omni_gold_dim_channel;\n",
+						"writeBehavior": "Upsert",
+						"upsertSettings": {
+							"keys": [
+								"channel_id"
+							],
+							"interimSchemaName": ""
+						},
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "dim_channel_parquet",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AzureSynapseAnalyticsTable1",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "GoldToSynapseCustomerDim",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "SilverToGold",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"wildcardFolderPath": "gold/dim_customer",
+							"wildcardFileName": "*.parquet",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "ParquetReadSettings"
+						}
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "IF OBJECT_ID('dbo.omni_gold_dim_customer', 'U') IS NOT NULL\n    DELETE FROM dbo.omni_gold_dim_customer;",
+						"writeBehavior": "Upsert",
+						"upsertSettings": {
+							"keys": [
+								"account_id"
+							],
+							"interimSchemaName": ""
+						},
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CustomerDimParquet",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AzureSynapseAnalyticsTableCustomerDim",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "GoldToSynapseInteractionFact",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "SilverToGold",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"wildcardFolderPath": "gold/fact_interactions/event*",
+							"wildcardFileName": "*.parquet",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "ParquetReadSettings"
+						}
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "IF OBJECT_ID('dbo.omni_gold_fact_interactions', 'U') IS NOT NULL\n    DELETE FROM\ndbo.omni_gold_fact_interactions;",
+						"writeBehavior": "Upsert",
+						"upsertSettings": {
+							"keys": [
+								"interaction_id",
+								"customer_id"
+							],
+							"interimSchemaName": ""
+						},
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "InteractionFactParquet",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AzureSynapseAnalyticsTableInteractionsFact",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2025-09-30T18:58:31Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,62 @@
+{
+	"name": "ds_blobsource",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_blobsource",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"name": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@concat('*', pipeline().parameters.FileKeyword, '*.csv')",
+					"type": "Expression"
+				},
+				"folderPath": "staging",
+				"container": "mycontainer"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "tweet_id",
+				"type": "String"
+			},
+			{
+				"name": "author_id",
+				"type": "String"
+			},
+			{
+				"name": "inbound",
+				"type": "String"
+			},
+			{
+				"name": "created_at",
+				"type": "String"
+			},
+			{
+				"name": "text",
+				"type": "String"
+			},
+			{
+				"name": "response_tweet_id",
+				"type": "String"
+			},
+			{
+				"name": "in_response_to_tweet_id",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

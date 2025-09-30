@@ -1,0 +1,50 @@
+{
+	"name": "InteractionFactParquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorageGold",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "gold/fact_interactions",
+				"fileSystem": "container11"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "interaction_id",
+				"type": "UTF8"
+			},
+			{
+				"name": "customer_id",
+				"type": "UTF8"
+			},
+			{
+				"name": "agent_id",
+				"type": "UTF8"
+			},
+			{
+				"name": "channel_id",
+				"type": "UTF8"
+			},
+			{
+				"name": "event_ts",
+				"type": "INT96"
+			},
+			{
+				"name": "duration",
+				"type": "INT_32"
+			},
+			{
+				"name": "event_date",
+				"type": "UTF8"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

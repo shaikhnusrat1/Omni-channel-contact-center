@@ -1,0 +1,11 @@
+{
+	"name": "AzureDataLakeStorageGold",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://azhaanadlsgen2.dfs.core.windows.net/"
+		}
+	}
+}

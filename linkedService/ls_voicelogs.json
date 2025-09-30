@@ -1,0 +1,22 @@
+{
+	"name": "ls_voicelogs",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "https://www.kaggle.com/api/v1",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Basic",
+			"userName": "nusratamena",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "AzureKeyVault1",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "apikey"
+			}
+		}
+	}
+}

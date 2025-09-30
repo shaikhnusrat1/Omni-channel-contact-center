@@ -1,0 +1,9 @@
+{
+	"name": "azhaanadf",
+	"location": "canadacentral",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "2ab87df7-edd1-48af-b1e5-2a1b80bcb841",
+		"tenantId": "2ec151fc-ffb4-465a-b44b-72435a5897fa"
+	}
+}
